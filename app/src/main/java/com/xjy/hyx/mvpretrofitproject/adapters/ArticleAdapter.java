@@ -1,8 +1,6 @@
 package com.xjy.hyx.mvpretrofitproject.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,27 +18,29 @@ import java.util.List;
  * date: 2016/8/11 0011 16:32
  * email：jianyexu@hyx.com
  */
-public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHolder> {
+public class ArticleAdapter extends BaseAdapter<Article, RecyclerView.ViewHolder> {
 
-    private List<Article> mArticles;
-    private Context mContext;
-
-    public ArticleAdapter(List<Article> articles, Context context){
-        mArticles = articles;
-        mContext = context;
+    public ArticleAdapter(List<Article> articles){
+        super(articles);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return createArticleViewHolder(parent);
+    }
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_subject, null);
-        return new ViewHolder(view);
+    protected RecyclerView.ViewHolder createArticleViewHolder(ViewGroup parent) {
+        return new ViewHolder(inflateItemView(parent, R.layout.item_subject));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    protected void bindDataToItemView(RecyclerView.ViewHolder holder, Article article) {
+        if (holder instanceof ViewHolder) {
+            bindArticleToItemView((ViewHolder) holder, article);
+        }
+    }
 
-        final Article article = mArticles.get(position);
+    protected void bindArticleToItemView(ViewHolder holder, Article article) {
         holder.tvSubject.setText(article.getLabel());
         holder.tvSubjectName.setText(article.getTitle());
         holder.tvActiveCount.setText(article.getActiveCount());
@@ -64,11 +64,6 @@ public class ArticleAdapter extends RecyclerView.Adapter<ArticleAdapter.ViewHold
             holder.ivRectangle.setVisibility(View.INVISIBLE);
             holder.tvSubject.setVisibility(View.INVISIBLE);
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        return mArticles == null ? 0 : mArticles.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
