@@ -2,6 +2,8 @@ package com.xjy.hyx.mvpretrofitproject.retrofit;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
@@ -17,11 +19,11 @@ import retrofit2.Response;
  */
 public abstract class RequestCallBack implements Callback<ResponseBody> {
 
-    public String data; // 数据
-    public String msg; // 错误信息
-    public String status; // 状态码
-    protected static final String STATUS_OK = "0";
-    protected static final String STATUS_EMPTY = "6003"; // 服务器无数据
+    protected String data; // 数据
+    protected String reason; // 错误信息
+    protected String stat; // 状态码
+    protected Gson gson = new Gson();
+    protected static final String OK = "1";
 
     @Override
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -29,9 +31,10 @@ public abstract class RequestCallBack implements Callback<ResponseBody> {
             String result = response.body().string();
             Log.i("onResponse", result);
             JSONObject jsonObject = new JSONObject(result);
-            data = jsonObject.optString("data");
-            msg = jsonObject.optString("msg");
-            status = jsonObject.optString("status");
+            reason = jsonObject.optString("reason");
+            JSONObject result1 = jsonObject.getJSONObject("result");
+            data = result1.optString("data");
+            stat = result1.optString("stat");
         } catch (Exception e) {
             e.printStackTrace();
         }

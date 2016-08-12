@@ -13,7 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static final String TAG = "RetrofitClient";
-    public static final String HOST = "http://mobileiftest2.yuwanchat.com";
+//    public static final String HOST = "http://mobileiftest2.yuwanchat.com";
+    public static final String HOST = "http://v.juhe.cn/";
     private static ServerApi mServerApi;
 
     public static ServerApi getServerApi() {

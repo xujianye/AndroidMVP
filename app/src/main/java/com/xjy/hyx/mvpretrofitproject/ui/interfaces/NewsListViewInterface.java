@@ -1,6 +1,7 @@
 package com.xjy.hyx.mvpretrofitproject.ui.interfaces;
 
 import com.xjy.hyx.mvpretrofitproject.entites.Article;
+import com.xjy.hyx.mvpretrofitproject.entites.News;
 
 import java.util.List;
 
@@ -10,11 +11,11 @@ import java.util.List;
  * date: 2016/8/11 0011 16:15
  * email：jianyexu@hyx.com
  */
-public interface ArticleViewInterface {
-
-    void showArticles(List<Article> articles);
+public interface NewsListViewInterface {
 
     void showLoading();
 
     void hideLoading();
+
+    void showNews(List<News> newsList);
 }

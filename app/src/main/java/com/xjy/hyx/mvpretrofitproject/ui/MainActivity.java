@@ -1,117 +1,72 @@
 package com.xjy.hyx.mvpretrofitproject.ui;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.xjy.hyx.mvpretrofitproject.R;
-import com.xjy.hyx.mvpretrofitproject.adapters.ArticleAdapter;
+import com.xjy.hyx.mvpretrofitproject.adapters.NewsAdapter;
+import com.xjy.hyx.mvpretrofitproject.adapters.NewsPageAdapter;
 import com.xjy.hyx.mvpretrofitproject.entites.Article;
+import com.xjy.hyx.mvpretrofitproject.entites.News;
 import com.xjy.hyx.mvpretrofitproject.interfaces.OnItemClickListener;
-import com.xjy.hyx.mvpretrofitproject.presenters.ArticlePresenter;
-import com.xjy.hyx.mvpretrofitproject.ui.interfaces.ArticleViewInterface;
+import com.xjy.hyx.mvpretrofitproject.presenters.NewsPresenter;
+import com.xjy.hyx.mvpretrofitproject.ui.interfaces.NewsListViewInterface;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MainActivity extends MVPBaseActivity<ArticleViewInterface, ArticlePresenter> implements ArticleViewInterface {
+public class MainActivity extends MVPBaseActivity<NewsListViewInterface, NewsPresenter> {
 
-    RecyclerView mRecyclerView;
-    List<Article> mArticles = new LinkedList<>();
-    ArticleAdapter mAdapter;
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    FloatingActionButton mFloatingActionButton;
+    TabLayout mTabLayout;
+    ViewPager mViewPager;
+    List<String> mTitles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("MVP");
+        toolbar.setTitle("新闻头条");
         setSupportActionBar(toolbar);
 
         initViews();
-        mPresenter.fetchArticles();
     }
 
     @Override
-    protected ArticlePresenter createPresenter() {
-        return new ArticlePresenter();
+    protected NewsPresenter createPresenter() {
+        return new NewsPresenter();
     }
 
     private void initViews() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new ArticleAdapter(mArticles);
-        mRecyclerView.setAdapter(mAdapter);
-        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mPresenter.fetchArticles();
-            }
-        });
+        mTitles = new ArrayList<>();
+        mTitles.add("头条");
+        mTitles.add("社会");
+        mTitles.add("国内");
+        mTitles.add("国际");
+        mTitles.add("娱乐");
+        mTitles.add("体育");
+        mTitles.add("军事");
+        mTitles.add("科技");
+        mTitles.add("财经");
+        mTitles.add("时尚");
 
-        mFloatingActionButton.setOnClickListener(this);
-        mAdapter.setOnItemClickListener(new OnItemClickListener<Article>() {
-            @Override
-            public void onClick(Article item) {
-                Snackbar.make(mRecyclerView, item.getTitle(), Snackbar.LENGTH_LONG).setAction("哈哈", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // TODO: 2016/8/12 0012
-                    }
-                }).show();
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.floatingActionButton:
-                mRecyclerView.getLayoutManager().scrollToPosition(0);
-                break;
+        for (String title : mTitles) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(title));
         }
+
+        mViewPager.setAdapter(new NewsPageAdapter(getSupportFragmentManager(), mTitles));
+        mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    @Override
-    public void showArticles(List<Article> articles) {
-        mArticles.clear();
-        mArticles.addAll(articles);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void showLoading() {
-        if (!mSwipeRefreshLayout.isRefreshing()) {
-            mSwipeRefreshLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                }
-            });
-        }
-    }
-
-    @Override
-    public void hideLoading() {
-        mSwipeRefreshLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        }, 500);
-    }
 }
