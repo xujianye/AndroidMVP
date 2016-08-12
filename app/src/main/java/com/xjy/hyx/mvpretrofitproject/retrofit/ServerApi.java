@@ -17,10 +17,6 @@ import retrofit2.http.Query;
  */
 public interface ServerApi {
 
-    // 查询首页 主题活动列表
-    @POST("ver4/bcnew/v1_9/subject/getList")
-    Call<ResponseBody> getArticles(@Body ReqArticle article);
-
     @GET("toutiao/index?key=9b96c83a80394a188e5a2d54318227f6")
     Call<ResponseBody> getNews(@Query("type") String type);
 
