@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="146dp">
+
+        <ImageView
+            android:id="@+id/iv_subject_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:id="@+id/tv_subject"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:gravity="center_vertical"
+                android:text="屌丝专场"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/iv_rectangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="#ffffff" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_subject_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginRight="9dp"
+        android:singleLine="true"
+        android:text="屌丝们，快快来加入吧..."
+        android:textColor="#333333"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="15dp">
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/recycler_user"/>-->
+
+        <TextView
+            android:id="@+id/tv_user_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="999人"
+            android:textColor="#fc6e51"
+            android:layout_gravity="center_vertical"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_active_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8"
+                android:textColor="#fc6e51"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/tv_subject_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="2dp"
+                android:text="场活动进行中"
+                android:textSize="9dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
