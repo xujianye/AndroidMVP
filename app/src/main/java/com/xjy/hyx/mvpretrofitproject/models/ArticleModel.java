@@ -15,4 +15,5 @@ public interface ArticleModel {
 
     void saveArticles(List<Article> articles);
     void loadArticlesFromCache(DataListener<List<Article>> listener);
+
 }

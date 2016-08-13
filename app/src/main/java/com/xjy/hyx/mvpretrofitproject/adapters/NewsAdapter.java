@@ -25,7 +25,7 @@ public class NewsAdapter extends BaseAdapter<News, RecyclerView.ViewHolder> {
     }
 
     @Override
-    protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, News item) {
+    protected void bindDataToItemView(RecyclerView.ViewHolder viewHolder, News item, int position) {
         if (viewHolder instanceof NewsViewHolder) {
             bindNewsToNewsItem((NewsViewHolder)viewHolder, item);
         }

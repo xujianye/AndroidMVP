@@ -3,7 +3,6 @@ package com.xjy.hyx.mvpretrofitproject.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import com.xjy.hyx.mvpretrofitproject.adapters.NewsAdapter;
 import com.xjy.hyx.mvpretrofitproject.entites.News;
 import com.xjy.hyx.mvpretrofitproject.interfaces.OnItemClickListener;
 import com.xjy.hyx.mvpretrofitproject.presenters.NewsPresenter;
+import com.xjy.hyx.mvpretrofitproject.ui.Constants;
 import com.xjy.hyx.mvpretrofitproject.ui.NewsDetailActivity;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.NewsListViewInterface;
 
@@ -41,9 +41,10 @@ public class NewsListFragment extends MVPBaseFragment<NewsListViewInterface, New
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mView == null) {
-            mView = inflater.inflate(R.layout.fragment_news_list, null);
+            mView = inflater.inflate(R.layout.layout_recycler_view, null);
             initViews();
-            type = getArguments().getString("type");
+            int position = getArguments().getInt("position");
+            type = Constants.NEWS[position][0];
             mPresenter.fetchNews(type);
         }
         return mView;

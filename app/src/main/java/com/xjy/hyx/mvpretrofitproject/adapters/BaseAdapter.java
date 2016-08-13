@@ -72,11 +72,11 @@ public abstract class BaseAdapter<T, VH extends ViewHolder> extends Adapter<VH> 
     @Override
     public final void onBindViewHolder(VH viewHolder, int position) {
         final T item = getItem(position);
-        bindDataToItemView(viewHolder, item);
+        bindDataToItemView(viewHolder, item, position);
         setupItemViewClickListener(viewHolder, item);
     }
 
-    protected abstract void bindDataToItemView(VH viewHolder, T item);
+    protected abstract void bindDataToItemView(VH viewHolder, T item, int position);
 
     public void setOnItemClickListener(OnItemClickListener<T> mItemClickListener) {
         this.mItemClickListener = mItemClickListener;

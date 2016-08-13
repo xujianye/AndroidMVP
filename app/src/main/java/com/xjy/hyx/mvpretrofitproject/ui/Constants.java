@@ -8,14 +8,7 @@ package com.xjy.hyx.mvpretrofitproject.ui;
  */
 public class Constants {
 
-    public static final String NEWS_TOP = "top";  // 新闻-头条
-    public static final String NEWS_SHEHUI = "shehui"; // 新闻-社会
-    public static final String NEWS_GUONEI = "guonei"; // 新闻-国内
-    public static final String NEWS_GUOJI = "guoji"; // 新闻-国际
-    public static final String NEWS_YULE = "yule"; // 新闻-娱乐
-    public static final String NEWS_TIYU = "tiyu"; // 新闻-体育
-    public static final String NEWS_JUNSHI = "junshi"; // 新闻-军事
-    public static final String NEWS_KEJI = "keji"; // 新闻-科技
-    public static final String NEWS_CAIJING = "caijing"; // 新闻-财经
-    public static final String NEWS_SHISHANG = "shishang"; // 新闻-时尚
+    public static final String[][] NEWS = {{"top", "头条"}, {"shehui", "社会"},
+            {"guonei", "国内"}, {"guoji", "国际"}, {"yule", "娱乐"}, {"tiyu", "体育"},
+            {"junshi", "军事"}, {"keji", "科技"}, {"caijing", "财经"}, {"shishang", "时尚"},};
 }

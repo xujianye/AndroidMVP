@@ -1,15 +1,13 @@
 package com.xjy.hyx.mvpretrofitproject.presenters;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xjy.hyx.mvpretrofitproject.entites.Article;
 import com.xjy.hyx.mvpretrofitproject.entites.News;
 import com.xjy.hyx.mvpretrofitproject.interfaces.DataListener;
 import com.xjy.hyx.mvpretrofitproject.models.ArticleModel;
-import com.xjy.hyx.mvpretrofitproject.models.impl.ArticalModelImpl;
+import com.xjy.hyx.mvpretrofitproject.models.impl.ArticleModelImpl;
 import com.xjy.hyx.mvpretrofitproject.retrofit.RequestCallBack;
 import com.xjy.hyx.mvpretrofitproject.retrofit.RetrofitClient;
-import com.xjy.hyx.mvpretrofitproject.retrofit.entites.ReqArticle;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.NewsListViewInterface;
 
 import java.util.List;
@@ -26,7 +24,7 @@ import retrofit2.Response;
  */
 public class NewsPresenter extends BasePresenter<NewsListViewInterface> {
 
-    ArticleModel mArticleMode = new ArticalModelImpl();
+    ArticleModel mArticleMode = new ArticleModelImpl();
 
     public void fetchNews(String type) {
         getView().showLoading();

@@ -1,6 +1,5 @@
 package com.xjy.hyx.mvpretrofitproject.retrofit;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,15 +12,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static final String TAG = "RetrofitClient";
-//    public static final String HOST = "http://mobileiftest2.yuwanchat.com";
-    public static final String HOST = "http://v.juhe.cn/";
+    public static final String HOST_NEWS = "http://v.juhe.cn/";
+    public static final String HOST_JOKE = "http://japi.juhe.cn/";
     private static ServerApi mServerApi;
 
     public static ServerApi getServerApi() {
         if (mServerApi == null) {
             synchronized (TAG) {
                 if (mServerApi == null) {
-                    Retrofit retrofit = new Retrofit.Builder().baseUrl(HOST)
+                    Retrofit retrofit = new Retrofit.Builder().baseUrl(HOST_NEWS)
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
                     mServerApi = retrofit.create(ServerApi.class);
@@ -29,5 +28,12 @@ public class RetrofitClient {
             }
         }
         return mServerApi;
+    }
+
+    public static ServerApi getServerApi(String baseUrl) {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(ServerApi.class);
     }
 }

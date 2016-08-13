@@ -34,7 +34,7 @@ public class ArticleAdapter extends BaseAdapter<Article, RecyclerView.ViewHolder
     }
 
     @Override
-    protected void bindDataToItemView(RecyclerView.ViewHolder holder, Article article) {
+    protected void bindDataToItemView(RecyclerView.ViewHolder holder, Article article, int position) {
         if (holder instanceof ViewHolder) {
             bindArticleToItemView((ViewHolder) holder, article);
         }

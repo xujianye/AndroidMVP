@@ -13,7 +13,7 @@ import java.util.List;
  * date: 2016/8/11 0011 16:18
  * email：jianyexu@hyx.com
  */
-public class ArticalModelImpl implements ArticleModel {
+public class ArticleModelImpl implements ArticleModel {
 
     private List<Article> mArticles = new LinkedList<>();
 
@@ -26,4 +26,5 @@ public class ArticalModelImpl implements ArticleModel {
     public void loadArticlesFromCache(DataListener<List<Article>> listener) {
         listener.onComplete(mArticles);
     }
+
 }
