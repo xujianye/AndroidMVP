@@ -1,6 +1,7 @@
 package com.xjy.hyx.mvpretrofitproject.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class JokeAdapter extends BaseAdapter<Joke, RecyclerView.ViewHolder> {
 
         if (viewHolder instanceof JokeViewHolder) {
             JokeViewHolder jokeViewHolder = (JokeViewHolder) viewHolder;
-            jokeViewHolder.mContent.setText((position + 1) + ". " + item.content);
+            jokeViewHolder.mContent.setText((position + 1) + ". " + Html.fromHtml(item.content));
         }
     }
 

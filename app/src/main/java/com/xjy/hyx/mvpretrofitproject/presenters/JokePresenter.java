@@ -1,18 +1,12 @@
 package com.xjy.hyx.mvpretrofitproject.presenters;
 
-import android.text.TextUtils;
-
-import com.google.gson.reflect.TypeToken;
-import com.xjy.hyx.mvpretrofitproject.retrofit.RequestCallBack;
-import com.xjy.hyx.mvpretrofitproject.retrofit.RetrofitClient;
 import com.xjy.hyx.mvpretrofitproject.entites.Joke;
+import com.xjy.hyx.mvpretrofitproject.interfaces.DataListener;
+import com.xjy.hyx.mvpretrofitproject.retrofit.dao.JokeApi;
+import com.xjy.hyx.mvpretrofitproject.retrofit.impl.JokeApiImpl;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.JokeViewInterface;
 
 import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * description:
@@ -22,30 +16,18 @@ import retrofit2.Response;
  */
 public class JokePresenter extends BasePresenter<JokeViewInterface> {
 
+    private JokeApi jokeApi = new JokeApiImpl();
+
     public void fetchJokes(int page) {
         getView().showLoading();
-        RetrofitClient.getServerApi(RetrofitClient.HOST_JOKE).getJokes(page, getCurrentTimeInString()).enqueue(new RequestCallBack() {
+        jokeApi.fetchJokes(page, new DataListener<List<Joke>>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                super.onResponse(call, response);
+            public void onComplete(List<Joke> result) {
                 getView().hideLoading();
-                if (!TextUtils.isEmpty(data)) {
-                    List<Joke> jokes = gson.fromJson(data, new TypeToken<List<Joke>>() {
-                    }.getType());
-                    getView().showJokes(jokes);
+                if (result != null) {
+                    getView().showJokes(result);
                 }
             }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                super.onFailure(call, t);
-                getView().hideLoading();
-            }
         });
-    }
-
-    public String getCurrentTimeInString() {
-        long time = System.currentTimeMillis() / 1000;
-        return String.valueOf(time);
     }
 }

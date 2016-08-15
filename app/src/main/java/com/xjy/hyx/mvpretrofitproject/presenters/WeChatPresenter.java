@@ -1,24 +1,12 @@
 package com.xjy.hyx.mvpretrofitproject.presenters;
 
-import android.text.TextUtils;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.xjy.hyx.mvpretrofitproject.entites.WeChatArticle;
-import com.xjy.hyx.mvpretrofitproject.retrofit.RetrofitClient;
+import com.xjy.hyx.mvpretrofitproject.interfaces.DataListener;
+import com.xjy.hyx.mvpretrofitproject.retrofit.dao.WeChatArticleApi;
+import com.xjy.hyx.mvpretrofitproject.retrofit.impl.WeChatArticleImpl;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.WeChatViewInterface;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * description:
@@ -28,34 +16,17 @@ import retrofit2.Response;
  */
 public class WeChatPresenter extends BasePresenter<WeChatViewInterface> {
 
+    private WeChatArticleApi mWeChatArticleApi = new WeChatArticleImpl();
+
     public void fetchArticles(int page) {
         getView().showLoading();
-        RetrofitClient.getServerApi().getWeChatArticles(page).enqueue(new Callback<ResponseBody>() {
+        mWeChatArticleApi.fetchWeChatArticles(page, new DataListener<List<WeChatArticle>>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onComplete(List<WeChatArticle> result) {
                 getView().hideLoading();
-                try {
-                    String result = response.body().string();
-                    Log.i("onResponse", result);
-                    JSONObject jsonObject = new JSONObject(result);
-                    String reason = jsonObject.optString("reason");
-                    JSONObject result1 = jsonObject.getJSONObject("result");
-                    String list = result1.optString("list");
-                    int error_code = result1.optInt("error_code");
-                    if (error_code == 0 && !TextUtils.isEmpty(list)) {
-                        List<WeChatArticle> weChatArticles = new Gson().fromJson(list, new TypeToken<List<WeChatArticle>>(){}.getType());
-                        getView().showArticles(weChatArticles);
-                    } else {
-                        getView().showError(reason);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (result != null) {
+                    getView().showArticles(result);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                getView().hideLoading();
             }
         });
     }
