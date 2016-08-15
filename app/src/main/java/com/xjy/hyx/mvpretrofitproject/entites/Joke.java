@@ -1,4 +1,4 @@
-package com.xjy.hyx.mvpretrofitproject.retrofit.entites;
+package com.xjy.hyx.mvpretrofitproject.entites;
 
 /**
  * description:

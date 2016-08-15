@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import com.google.gson.reflect.TypeToken;
 import com.xjy.hyx.mvpretrofitproject.retrofit.RequestCallBack;
 import com.xjy.hyx.mvpretrofitproject.retrofit.RetrofitClient;
-import com.xjy.hyx.mvpretrofitproject.retrofit.entites.Joke;
+import com.xjy.hyx.mvpretrofitproject.entites.Joke;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.JokeViewInterface;
 
 import java.util.List;

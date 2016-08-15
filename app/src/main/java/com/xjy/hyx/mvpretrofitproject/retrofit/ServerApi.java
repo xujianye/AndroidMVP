@@ -18,4 +18,7 @@ public interface ServerApi {
 
     @GET("joke/content/list.from?sort=desc&key=56d2bfcc50f68ee2d766b1d7d34bb284&pagesize=20")
     Call<ResponseBody> getJokes(@Query("page") int page, @Query("time") String time);
+
+    @GET("weixin/query?ps=20&dtype=json&key=19833975ebac5c834c06e1a9f7c61f9c")
+    Call<ResponseBody> getWeChatArticles(@Query("pno") int page);
 }

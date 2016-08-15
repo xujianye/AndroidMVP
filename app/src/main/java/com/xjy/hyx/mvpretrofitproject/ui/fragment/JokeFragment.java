@@ -1,20 +1,28 @@
-package com.xjy.hyx.mvpretrofitproject.ui;
+package com.xjy.hyx.mvpretrofitproject.ui.fragment;
+
+/**
+ * description:
+ * author：xujianye
+ * date: 2016/8/15 0015 14:43
+ * email：jianyexu@hyx.com
+ */
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.xjy.hyx.mvpretrofitproject.R;
 import com.xjy.hyx.mvpretrofitproject.adapters.JokeAdapter;
 import com.xjy.hyx.mvpretrofitproject.presenters.JokePresenter;
-import com.xjy.hyx.mvpretrofitproject.retrofit.entites.Joke;
+import com.xjy.hyx.mvpretrofitproject.entites.Joke;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.JokeViewInterface;
 
 import java.util.LinkedList;
@@ -26,7 +34,7 @@ import java.util.List;
  * date: 2016/8/13 0013 16:32
  * email：jianyexu@hyx.com
  */
-public class JokeActivity extends MVPBaseActivity<JokeViewInterface, JokePresenter> implements JokeViewInterface {
+public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresenter> implements JokeViewInterface {
 
     private static int page = 1;
     RecyclerView mRecyclerView;
@@ -36,43 +44,33 @@ public class JokeActivity extends MVPBaseActivity<JokeViewInterface, JokePresent
     ProgressBar mProgressBar;
     boolean isLoading;
     FloatingActionButton mFloatingActionButton;
+    View mView;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_joke);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("开怀一笑");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        initViews();
-        mPresenter.fetchJokes(page);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (mView == null) {
+            mView = inflater.inflate(R.layout.activity_joke, null);
+            initViews();
+            mPresenter.fetchJokes(page);
         }
-        return super.onOptionsItemSelected(item);
+        return mView;
     }
 
     private void initViews() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new JokeAdapter(mJokes);
         mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
-        mSwipeRefreshLayout.setProgressViewOffset(true, 200, 400);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setProgressViewOffset(true, 20, 100);
+        mProgressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
+        mFloatingActionButton = (FloatingActionButton) mView.findViewById(R.id.floatingActionButton);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = 1;
+                page = (int) (Math.random() * 10);
                 mPresenter.fetchJokes(page);
             }
         });

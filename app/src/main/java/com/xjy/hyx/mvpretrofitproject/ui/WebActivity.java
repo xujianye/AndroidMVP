@@ -18,7 +18,7 @@ import com.xjy.hyx.mvpretrofitproject.R;
  * date: 2016/8/12 0012 19:50
  * email：jianyexu@hyx.com
  */
-public class NewsDetailActivity extends AppCompatActivity {
+public class WebActivity extends AppCompatActivity {
 
     private WebView mWebView;
     private ProgressBar mProgressBar;
@@ -33,7 +33,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private void initViews() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("新闻详情");
+        toolbar.setTitle(getIntent().getStringExtra("title"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -60,6 +60,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 }
             }
         });
+        mWebView.getSettings().setBlockNetworkImage(false);
 
     }
 

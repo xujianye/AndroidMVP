@@ -1,11 +1,7 @@
 package com.xjy.hyx.mvpretrofitproject.presenters;
 
 import com.google.gson.reflect.TypeToken;
-import com.xjy.hyx.mvpretrofitproject.entites.Article;
 import com.xjy.hyx.mvpretrofitproject.entites.News;
-import com.xjy.hyx.mvpretrofitproject.interfaces.DataListener;
-import com.xjy.hyx.mvpretrofitproject.models.ArticleModel;
-import com.xjy.hyx.mvpretrofitproject.models.impl.ArticleModelImpl;
 import com.xjy.hyx.mvpretrofitproject.retrofit.RequestCallBack;
 import com.xjy.hyx.mvpretrofitproject.retrofit.RetrofitClient;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.NewsListViewInterface;
@@ -23,8 +19,6 @@ import retrofit2.Response;
  * email：jianyexu@hyx.com
  */
 public class NewsPresenter extends BasePresenter<NewsListViewInterface> {
-
-    ArticleModel mArticleMode = new ArticleModelImpl();
 
     public void fetchNews(String type) {
         getView().showLoading();
@@ -47,12 +41,4 @@ public class NewsPresenter extends BasePresenter<NewsListViewInterface> {
         });
     }
 
-    public void loadArticlesFromDB() {
-        mArticleMode.loadArticlesFromCache(new DataListener<List<Article>>() {
-            @Override
-            public void onComplete(List<Article> result) {
-                getView().showLoading();
-            }
-        });
-    }
 }

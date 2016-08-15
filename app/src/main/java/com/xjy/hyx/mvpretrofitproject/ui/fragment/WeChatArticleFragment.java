@@ -3,6 +3,7 @@ package com.xjy.hyx.mvpretrofitproject.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,31 +12,35 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xjy.hyx.mvpretrofitproject.R;
-import com.xjy.hyx.mvpretrofitproject.adapters.NewsAdapter;
-import com.xjy.hyx.mvpretrofitproject.entites.News;
+import com.xjy.hyx.mvpretrofitproject.adapters.WeChatArticleAdapter;
+import com.xjy.hyx.mvpretrofitproject.entites.WeChatArticle;
 import com.xjy.hyx.mvpretrofitproject.interfaces.OnItemClickListener;
-import com.xjy.hyx.mvpretrofitproject.presenters.NewsPresenter;
-import com.xjy.hyx.mvpretrofitproject.ui.Constants;
+import com.xjy.hyx.mvpretrofitproject.presenters.WeChatPresenter;
 import com.xjy.hyx.mvpretrofitproject.ui.WebActivity;
-import com.xjy.hyx.mvpretrofitproject.ui.interfaces.NewsListViewInterface;
+import com.xjy.hyx.mvpretrofitproject.ui.interfaces.WeChatViewInterface;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * description:
  * author：xujianye
- * date: 2016/8/12 0012 17:57
+ * date: 2016/8/15 0015 12:24
  * email：jianyexu@hyx.com
  */
-public class NewsListFragment extends MVPBaseFragment<NewsListViewInterface, NewsPresenter> implements NewsListViewInterface {
+public class WeChatArticleFragment extends MVPBaseFragment<WeChatViewInterface, WeChatPresenter> implements WeChatViewInterface {
 
     private View mView;
     RecyclerView mRecyclerView;
-    List<News> mNewsList = new LinkedList<>();
-    NewsAdapter mAdapter;
+    WeChatArticleAdapter mAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    private String type;
+    List<WeChatArticle> mWeChatArticles = new ArrayList<>();
+    private static int page = 1;
+
+    @Override
+    protected WeChatPresenter createPresenter() {
+        return new WeChatPresenter();
+    }
 
     @Nullable
     @Override
@@ -43,9 +48,7 @@ public class NewsListFragment extends MVPBaseFragment<NewsListViewInterface, New
         if (mView == null) {
             mView = inflater.inflate(R.layout.layout_recycler_view, null);
             initViews();
-            int position = getArguments().getInt("position");
-            type = Constants.NEWS[position][0];
-            mPresenter.fetchNews(type);
+            mPresenter.fetchArticles(page);
         }
         return mView;
     }
@@ -53,42 +56,27 @@ public class NewsListFragment extends MVPBaseFragment<NewsListViewInterface, New
     public void initViews() {
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new NewsAdapter(mNewsList);
+        mAdapter = new WeChatArticleAdapter(mWeChatArticles);
         mRecyclerView.setAdapter(mAdapter);
         mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefresh);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mPresenter.fetchNews(type);
+                page = 1;
+                mPresenter.fetchArticles(page);
             }
         });
 
-        mAdapter.setOnItemClickListener(new OnItemClickListener<News>() {
+        mAdapter.setOnItemClickListener(new OnItemClickListener<WeChatArticle>() {
             @Override
-            public void onClick(News item) {
+            public void onClick(WeChatArticle item) {
                 Intent intent = new Intent(getContext(), WebActivity.class);
                 intent.putExtra("url", item.url);
-                intent.putExtra("title", "新闻详情");
+                intent.putExtra("title", "微信精选");
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected NewsPresenter createPresenter() {
-        return new NewsPresenter();
-    }
-
-    public static MVPBaseFragment newInstance() {
-        return new NewsListFragment();
-    }
-
-    @Override
-    public void showNews(List<News> newsList) {
-        mNewsList.clear();
-        mNewsList.addAll(newsList);
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -113,4 +101,15 @@ public class NewsListFragment extends MVPBaseFragment<NewsListViewInterface, New
         }, 500);
     }
 
+    @Override
+    public void showArticles(List<WeChatArticle> weChatArticles) {
+        mWeChatArticles.clear();
+        mWeChatArticles.addAll(weChatArticles);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showError(String errMsg) {
+        Snackbar.make(mRecyclerView, errMsg, Snackbar.LENGTH_SHORT).show();
+    }
 }

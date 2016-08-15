@@ -1,6 +1,6 @@
 package com.xjy.hyx.mvpretrofitproject.ui.interfaces;
 
-import com.xjy.hyx.mvpretrofitproject.retrofit.entites.Joke;
+import com.xjy.hyx.mvpretrofitproject.entites.Joke;
 
 import java.util.List;
 

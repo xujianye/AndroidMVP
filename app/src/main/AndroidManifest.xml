@@ -24,12 +24,12 @@
         </activity>
 
         <activity
-            android:name=".ui.NewsDetailActivity"
+            android:name=".ui.WebActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.JokeActivity"
+            android:name=".ui.fragment.MVPBaseFragment$JokeFragment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

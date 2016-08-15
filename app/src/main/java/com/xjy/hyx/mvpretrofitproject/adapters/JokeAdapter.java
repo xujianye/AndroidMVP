@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.xjy.hyx.mvpretrofitproject.R;
-import com.xjy.hyx.mvpretrofitproject.retrofit.entites.Joke;
+import com.xjy.hyx.mvpretrofitproject.entites.Joke;
 
 import java.util.List;
 

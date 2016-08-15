@@ -1,6 +1,5 @@
 package com.xjy.hyx.mvpretrofitproject.ui.interfaces;
 
-import com.xjy.hyx.mvpretrofitproject.entites.Article;
 import com.xjy.hyx.mvpretrofitproject.entites.News;
 
 import java.util.List;
