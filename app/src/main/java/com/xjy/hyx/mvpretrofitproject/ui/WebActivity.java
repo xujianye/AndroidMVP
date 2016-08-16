@@ -60,6 +60,7 @@ public class WebActivity extends AppCompatActivity {
                 }
             }
         });
+        mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setBlockNetworkImage(false);
 
     }
@@ -71,6 +72,18 @@ public class WebActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mWebView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mWebView.onPause();
     }
 
     @Override

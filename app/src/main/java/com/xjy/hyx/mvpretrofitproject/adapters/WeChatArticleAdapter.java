@@ -1,9 +1,11 @@
 package com.xjy.hyx.mvpretrofitproject.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xjy.hyx.mvpretrofitproject.R;
@@ -36,7 +38,12 @@ public class WeChatArticleAdapter extends BaseAdapter<WeChatArticle, RecyclerVie
         viewHolder.tvTitle.setText(item.title);
         viewHolder.tvFrom.setText(item.source);
         viewHolder.tvDate.setText("来自：");
-        new LoadImageAsynTask().loadDrawable(item.firstImg, viewHolder.ivNewsPhoto);
+        if (TextUtils.isEmpty(item.firstImg)) {
+            viewHolder.llImgContainer.setVisibility(View.GONE);
+        } else {
+            viewHolder.llImgContainer.setVisibility(View.VISIBLE);
+            new LoadImageAsynTask().loadDrawable(item.firstImg, viewHolder.ivNewsPhoto);
+        }
     }
 
     @Override
@@ -52,6 +59,7 @@ public class WeChatArticleAdapter extends BaseAdapter<WeChatArticle, RecyclerVie
 
         TextView tvTitle, tvDate, tvFrom;
         ImageView ivNewsPhoto;
+        LinearLayout llImgContainer;
 
         public NewsViewHolder(View itemView) {
             super(itemView);
@@ -59,6 +67,7 @@ public class WeChatArticleAdapter extends BaseAdapter<WeChatArticle, RecyclerVie
             tvDate = (TextView) itemView.findViewById(R.id.tv_date);
             tvFrom = (TextView) itemView.findViewById(R.id.tv_from);
             ivNewsPhoto = (ImageView) itemView.findViewById(R.id.iv_news_photo);
+            llImgContainer = (LinearLayout) itemView.findViewById(R.id.ll_image_container);
         }
     }
 }

@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:minHeight="80dp"
         android:padding="5dp">
 
         <RelativeLayout
@@ -50,6 +51,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/ll_image_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
