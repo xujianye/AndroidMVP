@@ -18,6 +18,6 @@
 
 ## 实现效果
 
-![image](https://github.com/xujianye/retrofit_mvp_demo/blob/master/app/src/main/res/raw/application.gif?raw=true)
+![image](https://github.com/xujianye/AndroidMVP/blob/master/app/src/main/res/raw/application.gif?raw=true)
 
 
