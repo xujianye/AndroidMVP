@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class JokePresenter extends BasePresenter<JokeViewInterface> {
 
-    public void fetchJokes(int page) {
+    public void fetchJokes() {
         getView().showLoading();
-        mServerApi.fetchJokes(page, new DataListener<List<Joke>>() {
+        mServerApi.fetchJokes(getRandomNum(100), new DataListener<List<Joke>>() {
             @Override
             public void onComplete(List<Joke> result) {
                 getView().hideLoading();
@@ -25,5 +25,14 @@ public class JokePresenter extends BasePresenter<JokeViewInterface> {
                 }
             }
         });
+    }
+
+    /**
+     * 获取随机数
+     * @param number 取值范围（1 ~ number）
+     * @return
+     */
+    private int getRandomNum(int number) {
+        return  (int) (Math.random() * number);
     }
 }

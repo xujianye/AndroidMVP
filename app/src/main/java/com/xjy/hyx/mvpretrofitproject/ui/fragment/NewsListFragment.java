@@ -30,7 +30,6 @@ import java.util.List;
  */
 public class NewsListFragment extends MVPBaseFragment<NewsListViewInterface, NewsPresenter> implements NewsListViewInterface {
 
-    private View mView;
     RecyclerView mRecyclerView;
     List<News> mNewsList = new LinkedList<>();
     NewsAdapter mAdapter;
@@ -40,22 +39,22 @@ public class NewsListFragment extends MVPBaseFragment<NewsListViewInterface, New
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.layout_recycler_view, null);
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.layout_recycler_view, null);
             initViews();
             int position = getArguments().getInt("position");
             type = Constants.NEWS[position][0];
             mPresenter.fetchNews(type);
         }
-        return mView;
+        return mRootView;
     }
 
     public void initViews() {
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new NewsAdapter(mNewsList);
         mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swipeRefresh);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

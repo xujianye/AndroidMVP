@@ -36,7 +36,6 @@ import java.util.List;
  */
 public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresenter> implements JokeViewInterface {
 
-    private static int page = 1;
     RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
     JokeAdapter mAdapter;
@@ -44,51 +43,49 @@ public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresent
     ProgressBar mProgressBar;
     boolean isLoading;
     FloatingActionButton mFloatingActionButton;
-    View mView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.activity_joke, null);
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.activity_joke, null);
             initViews();
-            mPresenter.fetchJokes(page);
+            mPresenter.fetchJokes();
         }
-        return mView;
+        return mRootView;
     }
 
     private void initViews() {
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new JokeAdapter(mJokes);
         mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setProgressViewOffset(true, 20, 100);
-        mProgressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
-        mFloatingActionButton = (FloatingActionButton) mView.findViewById(R.id.floatingActionButton);
+        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.progressBar);
+        mFloatingActionButton = (FloatingActionButton) mRootView.findViewById(R.id.floatingActionButton);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                page = (int) (Math.random() * 10);
-                mPresenter.fetchJokes(page);
+                mPresenter.fetchJokes();
             }
         });
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (!ViewCompat.canScrollVertically(recyclerView, 1)) {
-                    if (!isLoading) {
-                        isLoading = true;
-                        mProgressBar.setVisibility(View.VISIBLE);
-                        page++;
-                        mPresenter.fetchJokes(page);
-                    }
-                }
-            }
-        });
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (!ViewCompat.canScrollVertically(recyclerView, 1)) {
+//                    if (!isLoading) {
+//                        isLoading = true;
+//                        mProgressBar.setVisibility(View.VISIBLE);
+//                        page++;
+//                        mPresenter.fetchJokes(page);
+//                    }
+//                }
+//            }
+//        });
 
         mFloatingActionButton.setOnClickListener(this);
     }
@@ -100,7 +97,7 @@ public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresent
 
     @Override
     public void showLoading() {
-        if (!mSwipeRefreshLayout.isRefreshing() && page == 1) {
+        if (!mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.post(new Runnable() {
                 @Override
                 public void run() {
@@ -115,6 +112,7 @@ public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresent
         switch (v.getId()) {
             case R.id.floatingActionButton:
                 mRecyclerView.getLayoutManager().scrollToPosition(0);
+                mPresenter.fetchJokes();
                 break;
         }
     }
@@ -133,9 +131,7 @@ public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresent
 
     @Override
     public void showJokes(List<Joke> jokes) {
-        if (page == 1) {
-            mJokes.clear();
-        }
+        mJokes.clear();
         mJokes.addAll(jokes);
         mAdapter.notifyDataSetChanged();
     }

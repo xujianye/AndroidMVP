@@ -30,7 +30,6 @@ import java.util.List;
  */
 public class WeChatArticleFragment extends MVPBaseFragment<WeChatViewInterface, WeChatPresenter> implements WeChatViewInterface {
 
-    private View mView;
     RecyclerView mRecyclerView;
     WeChatArticleAdapter mAdapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -45,20 +44,20 @@ public class WeChatArticleFragment extends MVPBaseFragment<WeChatViewInterface, 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.layout_recycler_view, null);
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.layout_recycler_view, null);
             initViews();
             mPresenter.fetchArticles(page);
         }
-        return mView;
+        return mRootView;
     }
 
     public void initViews() {
-        mRecyclerView = (RecyclerView) mView.findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new WeChatArticleAdapter(mWeChatArticles);
         mRecyclerView.setAdapter(mAdapter);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swipeRefresh);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

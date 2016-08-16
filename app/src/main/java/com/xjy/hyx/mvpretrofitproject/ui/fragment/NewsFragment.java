@@ -8,10 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.xjy.hyx.mvpretrofitproject.R;
 import com.xjy.hyx.mvpretrofitproject.adapters.NewsPageAdapter;
+import com.xjy.hyx.mvpretrofitproject.presenters.BasePresenter;
 import com.xjy.hyx.mvpretrofitproject.ui.Constants;
 
 /**
@@ -22,23 +22,23 @@ import com.xjy.hyx.mvpretrofitproject.ui.Constants;
  */
 public class NewsFragment extends Fragment {
 
-    private View mView;
     TabLayout mTabLayout;
     ViewPager mViewPager;
+    View mRootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.layout_news_list, null);
+        if (mRootView == null) {
+            mRootView = inflater.inflate(R.layout.layout_news_list, null);
             initViews();
         }
-        return mView;
+        return mRootView;
     }
 
     private void initViews() {
-        mTabLayout = (TabLayout) mView.findViewById(R.id.tabs);
-        mViewPager = (ViewPager) mView.findViewById(R.id.viewpager);
+        mTabLayout = (TabLayout) mRootView.findViewById(R.id.tabs);
+        mViewPager = (ViewPager) mRootView.findViewById(R.id.viewpager);
 
         for (int i = 0; i < Constants.NEWS.length; i++) {
             mTabLayout.addTab(mTabLayout.newTab().setText(Constants.NEWS[i][1]));
@@ -48,4 +48,11 @@ public class NewsFragment extends Fragment {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mRootView != null) {
+            ((ViewGroup) mRootView.getParent()).removeView(mRootView);
+        }
+    }
 }

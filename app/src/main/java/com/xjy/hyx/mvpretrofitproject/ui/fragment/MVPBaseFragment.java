@@ -3,6 +3,7 @@ package com.xjy.hyx.mvpretrofitproject.ui.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.xjy.hyx.mvpretrofitproject.presenters.BasePresenter;
 
@@ -15,6 +16,7 @@ import com.xjy.hyx.mvpretrofitproject.presenters.BasePresenter;
 public abstract class MVPBaseFragment<V, T extends BasePresenter<V>> extends Fragment implements View.OnClickListener {
 
     protected T mPresenter; // Presenter 对象
+    protected View mRootView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,14 @@ public abstract class MVPBaseFragment<V, T extends BasePresenter<V>> extends Fra
     public void onDestroy() {
         super.onDestroy();
         mPresenter.detachView();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mRootView != null) {
+            ((ViewGroup) mRootView.getParent()).removeView(mRootView);
+        }
     }
 
     protected abstract T createPresenter();
