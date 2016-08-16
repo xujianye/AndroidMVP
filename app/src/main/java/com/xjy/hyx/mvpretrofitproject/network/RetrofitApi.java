@@ -1,4 +1,4 @@
-package com.xjy.hyx.mvpretrofitproject.retrofit;
+package com.xjy.hyx.mvpretrofitproject.network;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -11,7 +11,7 @@ import retrofit2.http.Query;
  * date: 2016/8/11 0011 16:05
  * email：jianyexu@hyx.com
  */
-public interface ServerApi {
+public interface RetrofitApi {
 
     @GET("toutiao/index?key=9b96c83a80394a188e5a2d54318227f6")
     Call<ResponseBody> getNews(@Query("type") String type);
