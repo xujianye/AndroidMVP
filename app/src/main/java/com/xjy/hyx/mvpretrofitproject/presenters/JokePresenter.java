@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class JokePresenter extends BasePresenter<JokeViewInterface> {
 
+    private boolean isFirst = true;
+
     public void fetchJokes() {
         getView().showLoading();
         mServerApi.fetchJokes(getRandomNum(100), new DataListener<List<Joke>>() {
@@ -33,6 +35,10 @@ public class JokePresenter extends BasePresenter<JokeViewInterface> {
      * @return
      */
     private int getRandomNum(int number) {
+        if (isFirst) {
+            isFirst = false;
+            return 1;
+        }
         return  (int) (Math.random() * number);
     }
 }

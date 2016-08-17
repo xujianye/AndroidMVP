@@ -10,8 +10,8 @@ package com.xjy.hyx.mvpretrofitproject.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,8 +21,8 @@ import android.widget.ProgressBar;
 
 import com.xjy.hyx.mvpretrofitproject.R;
 import com.xjy.hyx.mvpretrofitproject.adapters.JokeAdapter;
-import com.xjy.hyx.mvpretrofitproject.presenters.JokePresenter;
 import com.xjy.hyx.mvpretrofitproject.entites.Joke;
+import com.xjy.hyx.mvpretrofitproject.presenters.JokePresenter;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.JokeViewInterface;
 
 import java.util.LinkedList;
@@ -48,7 +48,7 @@ public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresent
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mRootView == null) {
-            mRootView = inflater.inflate(R.layout.activity_joke, null);
+            mRootView = inflater.inflate(R.layout.fragment_joke, null);
             initViews();
             mPresenter.fetchJokes();
         }
@@ -60,6 +60,7 @@ public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresent
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new JokeAdapter(mJokes);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mSwipeRefreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.swipeRefresh);
         mSwipeRefreshLayout.setProgressViewOffset(true, 20, 100);
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.progressBar);

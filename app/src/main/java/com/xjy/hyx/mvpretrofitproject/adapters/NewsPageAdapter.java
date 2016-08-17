@@ -9,7 +9,9 @@ import com.xjy.hyx.mvpretrofitproject.ui.Constants;
 import com.xjy.hyx.mvpretrofitproject.ui.fragment.MVPBaseFragment;
 import com.xjy.hyx.mvpretrofitproject.ui.fragment.NewsListFragment;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * description:
@@ -23,13 +25,22 @@ public class NewsPageAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+    private Map<Integer, MVPBaseFragment> mFragmentMaps = new HashMap<>();
+
     @Override
     public Fragment getItem(int position) {
-        MVPBaseFragment fragment = NewsListFragment.newInstance();
-        Bundle bundle = new Bundle();
-        bundle.putInt("position", position);
-        fragment.setArguments(bundle);
-        return fragment;
+        return getFragment(position);
+    }
+
+    private MVPBaseFragment getFragment(int position) {
+        MVPBaseFragment mvpBaseFragment = mFragmentMaps.get(position);
+        if (mvpBaseFragment == null) {
+            mvpBaseFragment = NewsListFragment.newInstance();
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+            mvpBaseFragment.setArguments(bundle);
+        }
+        return mvpBaseFragment;
     }
 
     @Override
