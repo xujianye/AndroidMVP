@@ -32,6 +32,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.xjy.hyx.mvpretrofitproject.interfaces.OnItemClickListener;
+import com.xjy.hyx.mvpretrofitproject.interfaces.OnItemLongClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public abstract class BaseAdapter<T, VH extends ViewHolder> extends Adapter<VH> 
 
     List<T> mDataSet = new ArrayList<>();
     OnItemClickListener<T> mItemClickListener;
+    OnItemLongClickListener<T> mItemLongClickListener;
 
     public BaseAdapter(List<T> dataSet) {
         mDataSet = dataSet;
@@ -74,12 +76,17 @@ public abstract class BaseAdapter<T, VH extends ViewHolder> extends Adapter<VH> 
         final T item = getItem(position);
         bindDataToItemView(viewHolder, item, position);
         setupItemViewClickListener(viewHolder, item);
+        setupItemViewLongClickListener(viewHolder, item);
     }
 
     protected abstract void bindDataToItemView(VH viewHolder, T item, int position);
 
     public void setOnItemClickListener(OnItemClickListener<T> mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener<T> listener) {
+        this.mItemLongClickListener = listener;
     }
 
     /**
@@ -96,6 +103,24 @@ public abstract class BaseAdapter<T, VH extends ViewHolder> extends Adapter<VH> 
                 if (mItemClickListener != null) {
                     mItemClickListener.onClick(item);
                 }
+            }
+        });
+    }
+
+    /**
+     * ItemView的长按事件
+     *
+     * @param viewHolder
+     * @param item
+     */
+    protected void setupItemViewLongClickListener(VH viewHolder, final T item) {
+        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mItemLongClickListener != null) {
+                    return mItemLongClickListener.onLongClick(item);
+                }
+                return false;
             }
         });
     }

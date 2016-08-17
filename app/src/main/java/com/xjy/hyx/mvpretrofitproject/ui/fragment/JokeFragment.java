@@ -10,6 +10,7 @@ package com.xjy.hyx.mvpretrofitproject.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,8 +23,10 @@ import android.widget.ProgressBar;
 import com.xjy.hyx.mvpretrofitproject.R;
 import com.xjy.hyx.mvpretrofitproject.adapters.JokeAdapter;
 import com.xjy.hyx.mvpretrofitproject.entites.Joke;
+import com.xjy.hyx.mvpretrofitproject.interfaces.OnItemLongClickListener;
 import com.xjy.hyx.mvpretrofitproject.presenters.JokePresenter;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.JokeViewInterface;
+import com.xjy.hyx.mvpretrofitproject.utils.DataUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -70,6 +73,16 @@ public class JokeFragment extends MVPBaseFragment<JokeViewInterface, JokePresent
             @Override
             public void onRefresh() {
                 mPresenter.fetchJokes();
+            }
+        });
+
+        mAdapter.setOnItemLongClickListener(new OnItemLongClickListener<Joke>() {
+            @Override
+            public boolean onLongClick(Joke item) {
+                DataUtils.copyData(item.content, getContext());
+//                Log.i("DataUtils", DataUtils.pasteData(getContext()));
+                Snackbar.make(mRecyclerView, "已复制文本到剪切板.", Snackbar.LENGTH_SHORT).show();
+                return true;
             }
         });
 
