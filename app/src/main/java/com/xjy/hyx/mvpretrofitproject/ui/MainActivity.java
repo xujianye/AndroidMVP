@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,6 +16,8 @@ import android.widget.ListView;
 import com.xjy.hyx.mvpretrofitproject.R;
 import com.xjy.hyx.mvpretrofitproject.presenters.MainPresenter;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.MainViewInterface;
+
+import java.util.List;
 
 public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresenter> implements MainViewInterface {
 
@@ -80,19 +83,33 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
     }
 
     @Override
-    public void switchFragment(Fragment newFragment, Fragment oldFragment, String title) {
-        if (newFragment != null && newFragment != oldFragment) {
+    public void switchFragment(Fragment newFragment, String title) {
+        if (newFragment != null) {
             mFragmentTransaction = mFragmentManager.beginTransaction();
+            hideOtherFragment(title);
             if (newFragment.isAdded()) {
                 mFragmentTransaction.show(newFragment);
             } else {
-                mFragmentTransaction.add(R.id.frame_content, newFragment);
-            }
-            if (oldFragment != null) {
-                mFragmentTransaction.hide(oldFragment);
+                mFragmentTransaction.add(R.id.frame_content, newFragment, title);
+                mFragmentTransaction.addToBackStack(title);
             }
             mToolbar.setTitle(title);
             mFragmentTransaction.commit();
+        }
+    }
+
+    /**
+     * 隐藏其他已添加的Fragment
+     */
+    private void hideOtherFragment(String title) {
+        String[] titles = getResources().getStringArray(R.array.left_item);
+        for (String string : titles) {
+            if (!TextUtils.equals(string, title)) {
+                Fragment fragment = mFragmentManager.findFragmentByTag(string);
+                if (fragment != null) {
+                    mFragmentTransaction.hide(fragment);
+                }
+            }
         }
     }
 
@@ -100,7 +117,7 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
     public void onBackPressed() {
 
         if (System.currentTimeMillis() - lastTime < 2000) {
-            moveTaskToBack(true);
+            finish();
         } else {
             lastTime = System.currentTimeMillis();
             Snackbar.make(mLeftList, "双击退出程序", Snackbar.LENGTH_SHORT).show();

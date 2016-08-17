@@ -11,5 +11,5 @@ import android.support.v4.app.Fragment;
 public interface MainViewInterface {
     void start();
 
-    void switchFragment(Fragment newFragment, Fragment oldFragment, String title);
+    void switchFragment(Fragment newFragment, String title);
 }

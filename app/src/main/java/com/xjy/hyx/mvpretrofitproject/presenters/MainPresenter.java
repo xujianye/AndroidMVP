@@ -21,7 +21,6 @@ import java.util.Map;
 public class MainPresenter extends BasePresenter<MainViewInterface> {
 
     private Map<Integer, Fragment> mFragments = new HashMap<>();
-    private Fragment oldFragment;
 
     public void onStart() {
         getView().start();
@@ -51,8 +50,7 @@ public class MainPresenter extends BasePresenter<MainViewInterface> {
         if (position < array.length) {
             title = array[position];
         }
-        getView().switchFragment(newFragment, oldFragment, title);
-        oldFragment = newFragment;
+        getView().switchFragment(newFragment, title);
     }
 
 }
