@@ -6,12 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.xjy.hyx.mvpretrofitproject.ui.Constants;
-import com.xjy.hyx.mvpretrofitproject.ui.fragment.MVPBaseFragment;
 import com.xjy.hyx.mvpretrofitproject.ui.fragment.NewsListFragment;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * description:
@@ -21,26 +16,27 @@ import java.util.Map;
  */
 public class NewsPageAdapter extends FragmentPagerAdapter {
 
+    private FragmentManager mFragmentManager;
+
     public NewsPageAdapter(FragmentManager fm) {
         super(fm);
+        mFragmentManager = fm;
     }
-
-    private Map<Integer, MVPBaseFragment> mFragmentMaps = new HashMap<>();
 
     @Override
     public Fragment getItem(int position) {
         return getFragment(position);
     }
 
-    private MVPBaseFragment getFragment(int position) {
-        MVPBaseFragment mvpBaseFragment = mFragmentMaps.get(position);
-        if (mvpBaseFragment == null) {
-            mvpBaseFragment = NewsListFragment.newInstance();
+    private Fragment getFragment(int position) {
+        Fragment fragment = mFragmentManager.findFragmentByTag(getPageTitle(position).toString());
+        if (fragment == null) {
+            fragment = NewsListFragment.newInstance();
             Bundle bundle = new Bundle();
             bundle.putInt("position", position);
-            mvpBaseFragment.setArguments(bundle);
+            fragment.setArguments(bundle);
         }
-        return mvpBaseFragment;
+        return fragment;
     }
 
     @Override

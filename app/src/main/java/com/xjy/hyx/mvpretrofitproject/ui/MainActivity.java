@@ -26,14 +26,13 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
     private Toolbar mToolbar;
     private ListView mLeftList;
     private FragmentManager mFragmentManager;
-    private FragmentTransaction mFragmentTransaction;
     private long lastTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mPresenter.onStart();
+        mPresenter.onStart(getResources());
         initViews();
     }
 
@@ -46,7 +45,7 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mLeftList = (ListView) findViewById(R.id.left_list);
-        mPresenter.switchFragment(0, getResources());
+        mPresenter.switchFragment(0, mFragmentManager);
 
         //创建返回键，并实现打开关/闭监听
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close) {
@@ -65,7 +64,7 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
         mLeftList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.switchFragment(position, getResources());
+                mPresenter.switchFragment(position, mFragmentManager);
                 mDrawerLayout.closeDrawers();
             }
         });
@@ -74,7 +73,6 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
     @Override
     public void start() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("新闻头条");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,34 +81,8 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
     }
 
     @Override
-    public void switchFragment(Fragment newFragment, String title) {
-        if (newFragment != null) {
-            mFragmentTransaction = mFragmentManager.beginTransaction();
-            hideOtherFragment(title);
-            if (newFragment.isAdded()) {
-                mFragmentTransaction.show(newFragment);
-            } else {
-                mFragmentTransaction.add(R.id.frame_content, newFragment, title);
-                mFragmentTransaction.addToBackStack(title);
-            }
-            mToolbar.setTitle(title);
-            mFragmentTransaction.commit();
-        }
-    }
-
-    /**
-     * 隐藏其他已添加的Fragment
-     */
-    private void hideOtherFragment(String title) {
-        String[] titles = getResources().getStringArray(R.array.left_item);
-        for (String string : titles) {
-            if (!TextUtils.equals(string, title)) {
-                Fragment fragment = mFragmentManager.findFragmentByTag(string);
-                if (fragment != null) {
-                    mFragmentTransaction.hide(fragment);
-                }
-            }
-        }
+    public void setTitle(String title) {
+        mToolbar.setTitle(title);
     }
 
     @Override
