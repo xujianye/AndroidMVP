@@ -27,10 +27,10 @@ public class MainPresenter extends BasePresenter<MainViewInterface> {
 
     /**
      * 初始化
-     * @param resources
+     * @param titles
      */
-    public void onStart(Resources resources) {
-        mTitles = resources.getStringArray(R.array.left_item);
+    public void onStart(String[] titles) {
+        mTitles = titles;
         getView().start();
     }
 

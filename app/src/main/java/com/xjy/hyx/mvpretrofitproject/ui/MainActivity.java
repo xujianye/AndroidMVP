@@ -32,7 +32,7 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mPresenter.onStart(getResources());
+        mPresenter.onStart(getResources().getStringArray(R.array.left_item));
         initViews();
     }
 
@@ -73,6 +73,7 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
     @Override
     public void start() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(mPresenter.getTitle(0));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
