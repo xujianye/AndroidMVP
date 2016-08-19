@@ -1,6 +1,5 @@
 package com.xjy.hyx.mvpretrofitproject.presenters;
 
-import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;

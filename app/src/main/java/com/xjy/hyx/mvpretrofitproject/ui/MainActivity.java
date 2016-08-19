@@ -2,13 +2,10 @@ package com.xjy.hyx.mvpretrofitproject.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,8 +13,6 @@ import android.widget.ListView;
 import com.xjy.hyx.mvpretrofitproject.R;
 import com.xjy.hyx.mvpretrofitproject.presenters.MainPresenter;
 import com.xjy.hyx.mvpretrofitproject.ui.interfaces.MainViewInterface;
-
-import java.util.List;
 
 public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresenter> implements MainViewInterface {
 
@@ -93,7 +88,7 @@ public class MainActivity extends MVPBaseActivity<MainViewInterface, MainPresent
             finish();
         } else {
             lastTime = System.currentTimeMillis();
-            Snackbar.make(mLeftList, "双击退出程序", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mLeftList, getResources().getString(R.string.double_click_exit), Snackbar.LENGTH_SHORT).show();
         }
     }
 }

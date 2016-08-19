@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.xjy.hyx.mvpretrofitproject.R;
 import com.xjy.hyx.mvpretrofitproject.entites.News;
+import com.xjy.hyx.mvpretrofitproject.utils.DataUtils;
 import com.xjy.hyx.mvpretrofitproject.utils.LoadImageAsynTask;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class NewsAdapter extends BaseAdapter<News, RecyclerView.ViewHolder> {
 
     private void bindNewsToNewsItem(NewsViewHolder viewHolder, News item) {
         viewHolder.tvTitle.setText(item.title);
-        viewHolder.tvDate.setText(item.date);
+        String date = DataUtils.getTimeStrByLong(item.date);
+        viewHolder.tvDate.setText(date);
         viewHolder.tvFrom.setText(item.author_name);
         new LoadImageAsynTask().loadDrawable(item.thumbnail_pic_s, viewHolder.ivNewsPhoto);
     }
